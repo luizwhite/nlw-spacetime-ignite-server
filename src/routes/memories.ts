@@ -16,8 +16,13 @@ const checkIfObjectIsNotEmpty = (
 ]
 
 export async function memoriesRoutes(app: FastifyInstance) {
-  app.get('/memories', async () => {
+  app.addHook('preHandler', async (req) => {
+    await req.jwtVerify()
+  })
+
+  app.get('/memories', async (req) => {
     const memories = await prisma.memory.findMany({
+      where: { userId: req.user.sub },
       orderBy: { createdAt: 'asc' },
     })
 
@@ -44,8 +49,16 @@ export async function memoriesRoutes(app: FastifyInstance) {
     const { id } = resultParams.data
 
     const memory = await prisma.memory.findUniqueOrThrow({
-      where: { id },
+      where: {
+        id,
+      },
     })
+
+    if (memory.userId !== req.user.sub && !memory.isPublic) {
+      return res
+        .status(403)
+        .send('This memory is forbidden for the requester user.')
+    }
 
     return memory
   })
@@ -64,7 +77,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
         content,
         coverUrl,
         isPublic,
-        userId: '0d953618-11b6-46e6-aa75-442e64f1c752',
+        userId: req.user.sub,
       },
     })
 
@@ -89,6 +102,12 @@ export async function memoriesRoutes(app: FastifyInstance) {
     const memory = await prisma.memory.findUniqueOrThrow({
       where: { id },
     })
+
+    if (memory.userId !== req.user.sub && !memory.isPublic) {
+      return res
+        .status(403)
+        .send('This memory is forbidden for the requester user.')
+    }
 
     const memoryPartial = (({ content, coverUrl, isPublic }) => ({
       content,
@@ -139,8 +158,18 @@ export async function memoriesRoutes(app: FastifyInstance) {
 
     const { id } = resultParams.data
 
-    await prisma.memory.delete({
+    const memory = await prisma.memory.findUniqueOrThrow({
       where: { id },
+    })
+
+    if (memory.userId !== req.user.sub && !memory.isPublic) {
+      return res
+        .status(403)
+        .send('This memory is forbidden for the requester user.')
+    }
+
+    await prisma.memory.delete({
+      where: { id, userId: req.user.sub },
     })
 
     return res.status(204).send()
