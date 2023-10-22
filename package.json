@@ -28,6 +28,8 @@
   "dependencies": {
     "@fastify/cors": "^8.4.0",
     "@fastify/jwt": "^7.2.2",
+    "@fastify/multipart": "^8.0.0",
+    "@fastify/static": "^6.11.2",
     "@prisma/client": "^5.4.2",
     "axios": "^1.5.1",
     "fastify": "^4.24.0",

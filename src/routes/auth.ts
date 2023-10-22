@@ -1,10 +1,12 @@
-import { FastifyInstance } from 'fastify'
 import axios from 'axios'
 import { z } from 'zod'
+
+import type { FastifyInstance } from 'fastify'
+
 import { prisma } from '../lib/prisma'
 
 /* eslint-disable camelcase */
-export async function authRoutes(app: FastifyInstance) {
+export default async function authRoutes(app: FastifyInstance) {
   app.post('/register', async (req) => {
     const bodySchema = z.object({
       code: z.string(),

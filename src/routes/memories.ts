@@ -15,7 +15,7 @@ const checkIfObjectIsNotEmpty = (
   },
 ]
 
-export async function memoriesRoutes(app: FastifyInstance) {
+export default async function memoriesRoutes(app: FastifyInstance) {
   app.addHook('preHandler', async (req) => {
     await req.jwtVerify()
   })

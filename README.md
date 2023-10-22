@@ -5,5 +5,5 @@
 
 # Next Level Week - Spacetime - Server Project
 
-Here you will find Web Project developed during [NLW Spacetime](https://github.com/luizwhite/nlw-spacetime-ignite) from [Rocketseat 🚀](https://rocketseat.com.br).
+Here you will find the Server Project developed during [NLW Spacetime](https://github.com/luizwhite/nlw-spacetime-ignite) from [Rocketseat 🚀](https://rocketseat.com.br).
 
