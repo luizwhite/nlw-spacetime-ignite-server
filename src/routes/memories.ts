@@ -26,10 +26,11 @@ export default async function memoriesRoutes(app: FastifyInstance) {
       orderBy: { createdAt: 'asc' },
     })
 
-    return memories.map(({ id, coverUrl, content }) => ({
+    return memories.map(({ id, coverUrl, content, createdAt }) => ({
       id,
       coverUrl,
       excerpt: content.substring(0, 110).concat('...'),
+      createdAt,
     }))
   })
 

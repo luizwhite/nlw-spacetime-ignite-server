@@ -40,6 +40,6 @@ app.setErrorHandler((err, _, res) => {
   throw err
 })
 
-app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
+app.listen({ port: 3333, host: '::' }).then(() => {
   console.log('🚀 HTTP server running on http://localhost:3333')
 })
